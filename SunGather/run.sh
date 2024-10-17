@@ -1,18 +1,18 @@
 #!/usr/bin/with-contenv bashio
-# 1) Setup directories and copying config-0x01.yaml on HAOS
-# 2) Get configuration from the add-on and apply to config-0x01.yaml
+# 1) Setup directories and copying config-0x11.yaml on HAOS
+# 2) Get configuration from the add-on and apply to config-0x11.yaml
 # 2-A) Inverter, hassio, log_console, log_file, webserver, mqtt
 # 3) Activate the virtual environment and run the script sungather.py
 #--------------------------------------------------
 
-# 1) Setup directories and copying config-0x01.yaml on HAOS
+# 1) Setup directories and copying config-0x11.yaml on HAOS
 #--------------------------------------------------
 if [ ! -d /share/SunGather ]; then
   mkdir -p /share/SunGather
 fi
 
-if [ ! -f /share/SunGather/config-0x01.yaml ]; then
-    cp config-hassio.yaml /share/SunGather/config-0x01.yaml
+if [ ! -f /share/SunGather/config-0x11.yaml ]; then
+    cp config-hassio.yaml /share/SunGather/config-0x11.yaml
 fi
 
 # Reading config.yaml and setting up the variables. config.yaml is Add-on specific and is used to set up the configuration for the script
@@ -39,22 +39,22 @@ yq -i "
   .inverter.scan_interval = $INTERVAL |
   .inverter.log_console = \"$LOG_CONSOLE\" |
   .inverter.log_file = \"$LOG_FILE\"
-" /share/SunGather/config-0x01.yaml
+" /share/SunGather/config-0x11.yaml
 
 yq -i "
   (.exports[] | select(.name == \"hassio\") | .enabled) = True |
   (.exports[] | select(.name == \"hassio\") | .api_url) = \"http://supervisor/core/api\" |
   (.exports[] | select(.name == \"hassio\") | .token) = \"$SUPERVISOR_TOKEN\"
-" /share/SunGather/config-0x01.yaml
+" /share/SunGather/config-0x11.yaml
 
 # .exports[] to access the array of exports in the config file, | is used to chain commands, select() is used to filter the array based on the name of the export, .variable = value is used to set the value of the variable
 yq -i "
   (.exports[] | select(.name == \"webserver\") | .enabled) = True |
   (.exports[] | select(.name == \"webserver\") | .port) = 8099
-" /share/SunGather/config-0x01.yaml
+" /share/SunGather/config-0x11.yaml
 
-if [ $CUSTOM_MQTT_SERVER = true ]; then #custom MQTT details are in /share/SunGather/config-0x01.yaml
-   echo "Skipping auto MQTT set up, please ensure MQTT settings are configured in /share/SunGather/config-0x01.yaml"
+if [ $CUSTOM_MQTT_SERVER = true ]; then #custom MQTT details are in /share/SunGather/config-0x11.yaml
+   echo "Skipping auto MQTT set up, please ensure MQTT settings are configured in /share/SunGather/config-0x11.yaml"
 else
   # In case CUSTOM_MQTT_SERVER is not set, we will use the internal MQTT broker
   if ! bashio::services.available "mqtt"; then
@@ -80,7 +80,7 @@ else
       (.exports[] | select(.name == "mqtt") | .homeassistant) = true |
       (.exports[] | select(.name == "mqtt") | .mqtt.device.model) = \"$MQTT_DEVICE_MODEL\" |
       (.exports[] | select(.name == "mqtt") | .mqtt.device.identifiers) = \"$MQTT_DEVICE_IDENTIFIERS\"
-    " /share/SunGather/config-0x01.yam
+    " /share/SunGather/config-0x11.yam
 
       fi
     fi
@@ -90,4 +90,4 @@ else
 # Activate the virtual environment and run the script
 #--------------------------------------------------
 source ./venv/bin/activate
-exec python3 /sungather.py -c /share/SunGather/config-0x01.yaml -l /share/SunGather/ # -c is for config file, -l is for log file
+exec python3 /sungather.py -c /share/SunGather/config-0x11.yaml -l /share/SunGather/ # -c is for config file, -l is for log file

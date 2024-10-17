@@ -1,1 +1,1 @@
-SunGrowInverter 0x01
+SunGrowInverter 0x11

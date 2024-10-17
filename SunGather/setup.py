@@ -15,7 +15,7 @@ setuptools.setup(
     version=__version__,
     author="FSEL TEAM",
     author_email="ha-fsel@faujiposer.com",
-    description="Sungrow Inverters 0x01 data collect and feed to various locations (MQTT, PVOutput, Home Assistant)",
+    description="Sungrow Inverters 0x11 data collect and feed to various locations (MQTT, PVOutput, Home Assistant)",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/harrisjunaid/SunGrowInverters",

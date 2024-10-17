@@ -85,7 +85,7 @@ def main():
         "port": configfile['inverter'].get('port',502),
         "model": configfile['inverter'].get('model','SG250HX'),
         "serial": configfile['inverter'].get('serial','A2390800745'),
-        "slave": configfile['inverter'].get('slave',0x01),
+        "slave": configfile['inverter'].get('slave',0x11),
         "level": configfile['inverter'].get('level',1),
         "timeout": configfile['inverter'].get('timeout',10),
         "retries": configfile['inverter'].get('retries',3),
@@ -103,7 +103,7 @@ def main():
 
     if not config_inverter['log_file'] == "OFF":
         if config_inverter['log_file'] == "DEBUG" or config_inverter['log_file'] == "INFO" or config_inverter['log_file'] == "WARNING" or config_inverter['log_file'] == "ERROR":
-            logfile = logfolder + "SunGrow-0x01.log"
+            logfile = logfolder + "SunGrow-0x11.log"
             fh = logging.handlers.RotatingFileHandler(logfile, mode='w', encoding='utf-8', maxBytes=10485760, backupCount=10) # Log 10mb files, 10 x files = 100mb
             fh.formatter = logger.handlers[0].formatter
             fh.setLevel(config_inverter['log_file'])

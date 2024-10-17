@@ -1,7 +1,7 @@
 # Add-on configuration
-name: "SunGrow Inverter 0x01"
+name: "SunGrow Inverter 0x11"
 version: "0.2.0"
-slug: sungrow-0x01 # short unique identifier
+slug: sungrow-0x11 # short unique identifier
 description: "Extract Sungrow data from local Inverter"
 arch: # supported CPU architectures
   - armhf

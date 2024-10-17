@@ -50,7 +50,7 @@ class export_webserver(object):
         json_array={"registers":{}, "client_config":{}, "inverter_config":{}}
         metrics_body = ""
         main_body = f"""
-            <h3>SunGrow Inverter 0x01</h3></p>
+            <h3>SunGrow Inverter 0x11</h3></p>
             """
         main_body += "<table><th>Address</th><tr><th>Register</th><th>Value</th></tr>"
         for register, value in inverter.latest_scrape.items():

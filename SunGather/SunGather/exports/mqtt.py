@@ -59,8 +59,8 @@ class export_mqtt(object):
             'port': config.get('port', 1883),
             'username': config.get('username', None),
             'password': config.get('password',None),
-            'client_id': config.get('client_id', f'0x01{self.serial_number}'),
-            'topic': config.get('topic', f"SunGrow-Inverter-0x01/{self.serial_number}"),
+            'client_id': config.get('client_id', f'0x11{self.serial_number}'),
+            'topic': config.get('topic', f"SunGrow-Inverter-0x11/{self.serial_number}"),
             'homeassistant': config.get('homeassistant',False)
         }
         # 3) Initialize Home Assistant Sensors
@@ -138,15 +138,15 @@ class export_mqtt(object):
             # Build Device, this will be the same for every message
             # HA discovery message info
             ha_device = { 
-                "name": f"0x01 {self.model} {self.serial_number}", 
-                "identifiers": [f"0x01{self.serial_number}"], 
+                "name": f"0x11 {self.model} {self.serial_number}", 
+                "identifiers": [f"0x11{self.serial_number}"], 
                 "manufacturer": "Sungrow", 
                 "model": self.model, 
                 "via_device": "SunGather",  # Ensure this is the correct device identifier
                 # Uncomment and verify if needed:
                 # "connections": [
                 #     ["address", inverter.getHost()],  # Ensure getHost() returns a valid address
-                #     ["port", inverter.getPort() or "0x01"]  # Assuming getPort() returns the correct port, otherwise handle it
+                #     ["port", inverter.getPort() or "0x11"]  # Assuming getPort() returns the correct port, otherwise handle it
                 # ]
             }
 
@@ -168,7 +168,7 @@ class export_mqtt(object):
                         config_msg[ha_variable] = ha_sensor[ha_variable]
 
                 # Set unique_id, include Serial so is unique
-                config_msg['unique_id'] = f"sungather_0x01_{self.cleanName(config_msg['name'])}_{self.serial_number}"
+                config_msg['unique_id'] = f"sungather_0x11_{self.cleanName(config_msg['name'])}_{self.serial_number}"
 
                 # Variables with links to registers
                 if ha_sensor.get('register', False):
@@ -177,7 +177,7 @@ class export_mqtt(object):
                 
                 config_msg['device'] = ha_device
             
-                ha_topic = f"homeassistant/{ha_sensor.get('sensor_type')}/0x01{self.serial_number}_{self.cleanName(ha_sensor.get('name'))}/config"  #Discovery Topic: <discovery_prefix>/<component>/<object_id>/config
+                ha_topic = f"homeassistant/{ha_sensor.get('sensor_type')}/0x11{self.serial_number}_{self.cleanName(ha_sensor.get('name'))}/config"  #Discovery Topic: <discovery_prefix>/<component>/<object_id>/config
                 logging.debug(f'MQTT: Topic; {ha_topic}, Message: {config_msg}')
 
                 self.mqtt_queue.append(self.mqtt_client.publish(ha_topic, json.dumps(config_msg), qos=2, retain=True).mid) # append to mqtt_queue dictionary message (topic, payload, qos, retain)
