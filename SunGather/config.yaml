@@ -1,0 +1,48 @@
+# Add-on configuration
+name: "SunGrow Inverter 0x01"
+version: "0.2.0"
+slug: sungrow-0x01 # short unique identifier
+description: "Extract Sungrow data from local Inverter"
+arch: # supported CPU architectures
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+url: "https://github.com/harrisjunaid/SunGrowInverters" # repository URL
+startup: application # startup type (application, service, module)
+ingress: true # enable ingress for remote access
+ingress_port: 8099
+boot: auto # auto, ondemand, manual on boot
+discovery:
+  - "mqtt"
+services: # list of services required by the add-on
+  - "mqtt:need"
+map: # system mapping with shared folders
+  - share:rw
+options: 
+  host: 192.168.1.5
+  connection: "modbus"
+  port: 502
+  model: "SG250HX"
+  #serial: "1234567890"
+  timeout: 10
+  scan_interval: 30
+  smart_meter: False
+  custom_mqtt_server: True
+  log_console: "INFO"
+  log_file: "OFF"
+schema: # types and constraints for configuration
+  host: str
+  connection: "list(sungrow|modbus|http)"
+  port: int(1,65535)?
+  model: str
+  #serial: str
+  timeout: int(3,60)?
+  scan_interval: int(5,600)?
+  smart_meter: bool
+  custom_mqtt_server: bool
+  log_console: "list(OFF|INFO|WARNING|ERROR|DEBUG)?"
+  log_file: "list(OFF|INFO|WARNING|ERROR|DEBUG)?"
+panel_icon: mdi:SolarPowerVariant
+init: false
